@@ -14,7 +14,8 @@
             "dynamodb:DeleteItem",
             "ssm:PutParameter",
             "ssm:GetParameter",
-            "kms:Decrypt"
+            "kms:Decrypt",
+            "s3:PutObject"
           ],
           "Effect": "Allow",
           "Resource": "*"
@@ -32,6 +33,25 @@
       "lambda-basic-execution"
     ],
     "resource_type": "iam_role",
+    "tags": {}
+  },
+  "uuid_trigger": {
+    "resource_type": "cloudwatch_rule",
+    "rule_type": "schedule",
+    "tags": {},
+    "expression": "rate(1 minute)"
+  },
+  "${target_bucket}": {
+    "resource_type": "s3_bucket",
+    "acl": "private",
+    "cors": [],
+    "policy": {},
+    "public_access_block": {
+      "block_public_acls": true,
+      "ignore_public_acls": true,
+      "block_public_policy": true,
+      "restrict_public_buckets": true
+    },
     "tags": {}
   }
 }
